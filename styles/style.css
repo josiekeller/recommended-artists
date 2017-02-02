@@ -1,0 +1,22 @@
+/* General Styles */
+
+/* Header Styles */
+
+.page-header h1 {
+  text-align: center;
+}
+
+.input-group {
+  width: 50%;
+  margin: auto;
+}
+
+#recommendations .intro {
+  text-align: center;
+}
+
+img {
+  max-width: 320px;
+  max-height: 320px;
+  min-height: 320px;
+}
