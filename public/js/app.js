@@ -27,13 +27,10 @@ $(document).ready(function(){
           '<img src="<%= thumbnail %>" alt="...">' +
           '<div class="caption">' +
             '<h3><%= name %></h3>' +
-            '<p><a href="<%= url %>" class="btn btn-primary" role="button">Play on Spotify</a></p>' +
+            '<p><a href="<%= url %>" target="_blank" class="btn btn-primary" role="button">Play on Spotify</a></p>' +
           '</div>' +
         '</div>' +
       '</div>'
-    ),
-    touringTemplate: _.template(
-      '<p><a href="<%= url %>" class="btn btn-primary" role="button">On Tour</a></p>'
     )
   };
 
@@ -106,7 +103,7 @@ $(document).ready(function(){
     },
     renderTouringButton: function(isTouring, url) {
       if (isTouring) {
-        $("#recommendations .touring-info").html('<a href="' + url + '" class="btn btn-info btn-lg" role="button">See Tour Dates</a>');
+        $("#recommendations .touring-info").html('<a href="' + url + '" target="_blank" class="btn btn-info btn-lg" role="button">See Tour Dates</a>');
       }
     }
 };
