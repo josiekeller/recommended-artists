@@ -31,6 +31,9 @@ $(document).ready(function(){
           '</div>' +
         '</div>' +
       '</div>'
+    ),
+    touringTemplate: _.template(
+      '<p><a href="<%= url %>" class="btn btn-primary" role="button">On Tour</a></p>'
     )
   };
 
@@ -57,6 +60,12 @@ $(document).ready(function(){
               var artist_id = response.artists.items[0].id;
               var artist_name = response.artists.items[0].name;
               App.renderIntro(artist_name);
+              var touringRequest = App.getTouring(artist_name);
+                   touringRequest.done(function(response) {
+                     var isTouring = response.upcoming_event_count > 0;
+                     var url = response.facebook_tour_dates_url;
+                     App.renderTouringButton(isTouring, url);
+                   });
               var relatedArtistRequest = App.getRelatedArtists(artist_id);
               relatedArtistRequest.done(function(response) {
                  var relatedArtists = Utils.formatResponse(response);
@@ -84,9 +93,21 @@ $(document).ready(function(){
     renderIntro: function(artist_name) {
       $("#recommendations .intro").html('<h2>Your recommendations based on ' + artist_name + '</h2>');
     },
+    getTouring: function(artist_name) {
+      var encodedArtistName = encodeURIComponent(artist_name);
+      return $.ajax({
+          url: 'https://accesscontrolalloworiginall.herokuapp.com/http://api.bandsintown.com/artists/' + encodedArtistName + '.json?api_version=2.0&app_id=recommended_artists',
+          dataType: 'json'
+      });
+    },
     renderRelatedArtists: function(artists) {
       var gridMarkup = Utils.getGridMarkup(artists);
       $("#recommendations .grid").html(gridMarkup);
+    },
+    renderTouringButton: function(isTouring, url) {
+      if (isTouring) {
+        $("#recommendations .touring-info").html('<a href="' + url + '" class="btn btn-info btn-lg" role="button">See Tour Dates</a>');
+      }
     }
 };
 
